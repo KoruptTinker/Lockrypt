@@ -20,7 +20,7 @@ public class lockrypt {
             //System.out.println(new String(cipher[i]));
         }
         for(int i=0;i<FM.fileList.length;i++){
-            
+        	//String data=block_chain.blockchain.get(i).get_data();
             decipher[i]=AE.decrypt(cipher[i]);
             //System.out.println(new String(decipher[i]));
         }
