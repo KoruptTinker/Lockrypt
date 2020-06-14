@@ -29,12 +29,7 @@ public class fileManager {
         }
     }
 
-    public static void main(String[] args) {
-        fileManager filem=new fileManager();
-        for(int i=0;i<filem.fileList.length;i++){
-            filem.getFileBytes(filem.fileList[i]);
-        }
-        System.out.println(filem.fileBytes[0].length);
-        System.out.println(filem.fileBytes[1].length);
+    public void deleteFile(File fileName){
+        fileName.delete();
     }
 }
