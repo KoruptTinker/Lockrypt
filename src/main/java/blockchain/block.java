@@ -5,7 +5,8 @@ import java.util.Date;
 public class block {
 		public String hash; 
 	    public String previousHash; 
-	    private String data; 
+		private String data;
+		private byte[] data2; 
 	    private long timeStamp; 
 	    private int nonce;
 	    public long get_timestamp() {
@@ -14,28 +15,36 @@ public class block {
 	    }
 	    public String get_data() {
 	    	return data;
-	    }
+		}
+		
+		public byte[] get_data2(){
+			return data2;
+		}
+
 	    public int nonce() {
 	    	return nonce;
-	    }
-	    public block(String data,String previousHash) 
+		}
+		
+	    public block(String data,String previousHash, byte[] data2) 
 	    { 
 	        this.data = data; 
 	        this.previousHash = previousHash; 
 	        this.timeStamp= new Date().getTime(); 
-	        this.hash = calculateHash(); 
-	    } 
+			this.hash = calculateHash(); 
+			this.data2=data2;
+		} 
+		
 	    public String calculateHash() 
 	    { 
 	        String hash_value= Cryptography.SHA256( previousHash +Long.toString(timeStamp) +Integer.toString(nonce) + data ); 
 	        return hash_value; 
-	    } 
+		} 
+		
 	    public void mining(int difficulty) {
 			String target = new String(new char[difficulty]).replace('\0', '0'); 
 			while(!hash.substring( 0, difficulty).equals(target)) {
 				nonce ++;
 				hash = calculateHash();
 			}
-			System.out.println("BLOCK MINED");
 		}
 }

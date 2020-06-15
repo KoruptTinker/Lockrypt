@@ -5,17 +5,17 @@ public class block_chain {
 	public static ArrayList<block> blockchain = new ArrayList<block>();
 	public static int difficulty = 3;
     public static void Create_Blockchain(){
-	
-    	blockchain.add(new block("cn project", "0"));
+		byte[] data2 =new byte[0];
+    	blockchain.add(new block("Initial block", "0",data2));
     	blockchain.get(0).mining(difficulty);
     	
     
     
     }
 	
-	public static void Add_Block(String data){
+	public static void Add_Block(String data, byte[] data2){
 		
-		blockchain.add(new block( data, blockchain.get(blockchain.size() - 1) .hash)); 
+		blockchain.add(new block( data, blockchain.get(blockchain.size() - 1) .hash,data2)); 
 		blockchain.get(blockchain.size() - 1).mining(difficulty);
 		
 	}
