@@ -6,13 +6,14 @@ public class block {
 		public String hash; 
 	    public String previousHash; 
 		private String data;
-		private byte[] data2; 
+		private byte[] data2;
+		private String fileName; 
 	    private long timeStamp; 
 	    private int nonce;
 	    public long get_timestamp() {
 	    	return timeStamp;
-	    	
-	    }
+		}
+		
 	    public String get_data() {
 	    	return data;
 		}
@@ -24,14 +25,19 @@ public class block {
 	    public int nonce() {
 	    	return nonce;
 		}
+
+		public String getFileName(){
+			return this.fileName;
+		}
 		
-	    public block(String data,String previousHash, byte[] data2) 
+	    public block(String data,String previousHash, byte[] data2, String fileName) 
 	    { 
 	        this.data = data; 
 	        this.previousHash = previousHash; 
 	        this.timeStamp= new Date().getTime(); 
 			this.hash = calculateHash(); 
 			this.data2=data2;
+			this.fileName=fileName;
 		} 
 		
 	    public String calculateHash() 

@@ -6,21 +6,16 @@ public class block_chain {
 	public static int difficulty = 3;
     public static void Create_Blockchain(){
 		byte[] data2 =new byte[0];
-    	blockchain.add(new block("Initial block", "0",data2));
+    	blockchain.add(new block("Initial block", "0",data2, null));
     	blockchain.get(0).mining(difficulty);
-    	
-    
-    
     }
 	
-	public static void Add_Block(String data, byte[] data2){
+	public static void Add_Block(String data, byte[] data2, String fileName){
 		
-		blockchain.add(new block( data, blockchain.get(blockchain.size() - 1) .hash,data2)); 
+		blockchain.add(new block( data, blockchain.get(blockchain.size() - 1) .hash,data2, fileName)); 
 		blockchain.get(blockchain.size() - 1).mining(difficulty);
-		
 	}
 	public static Boolean verify() {
-		
 		block current; 
 		block previous;
 		String hashTarget = new String(new char[difficulty]).replace('\0', '0');

@@ -1,5 +1,6 @@
 package main.java;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -8,12 +9,11 @@ public class AdvancedEncryption{
     private byte[] key;
     private static final String ALGORITHM = "AES";
 
-    public AdvancedEncryption()
+    public AdvancedEncryption(lockrypt user)
     {
         byte[] randomkey=new byte[16];
-        new Random().nextBytes(randomkey);
-        this.key = randomkey;
-
+        randomkey=user.getPass().getBytes(StandardCharsets.UTF_8);
+        this.key=randomkey;
     }
 
     public byte[] encrypt(byte[] plainText) throws Exception
