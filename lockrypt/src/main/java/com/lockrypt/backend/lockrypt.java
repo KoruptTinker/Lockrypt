@@ -1,9 +1,9 @@
-package main.java;
+package com.lockrypt.backend;
 
 import java.nio.charset.StandardCharsets;
-import main.java.AdvancedEncryption;
-import main.java.fileManager;
-import main.java.blockchain.*;
+import com.lockrypt.backend.AdvancedEncryption;
+import com.lockrypt.backend.fileManager;
+import com.lockrypt.backend.blockchain.*;
 import java.util.Scanner;
 
 public class lockrypt {

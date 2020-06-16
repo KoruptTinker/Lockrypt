@@ -1,5 +1,7 @@
-package main.java.blockchain;
+package com.lockrypt.backend.blockchain;
+
 import java.security.MessageDigest; 
+
 public class Cryptography{
 	public static String SHA256(String input) 
     { 

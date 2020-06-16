@@ -1,4 +1,4 @@
-package main.java;
+package com.lockrypt.backend;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,7 +1,6 @@
-package main.java;
+package com.lockrypt.backend;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Random;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 

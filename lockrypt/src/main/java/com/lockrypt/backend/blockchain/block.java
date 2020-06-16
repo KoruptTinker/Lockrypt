@@ -1,4 +1,4 @@
-package main.java.blockchain;
+package com.lockrypt.backend.blockchain;
 
 import java.util.Date;
 

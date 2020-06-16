@@ -1,4 +1,5 @@
-package main.java.blockchain;
+package com.lockrypt.backend.blockchain;
+
 import java.util.ArrayList; 
 
 public class block_chain {
