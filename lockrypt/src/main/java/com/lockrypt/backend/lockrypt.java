@@ -7,23 +7,22 @@ import com.lockrypt.backend.blockchain.*;
 import java.util.Scanner;
 
 public class lockrypt {
+    public static lockrypt instanceL;
     public String username;
     private String password;
 
-    public lockrypt(){
-        Scanner sc=new Scanner(System.in);
-        System.out.println("Enter your username: ");
-        this.username=sc.nextLine();
-        System.out.println("Enter your password [16 characters only]: ");
-        boolean flag=false;
-        while(!flag){
-            flag=setPass(sc.nextLine());
-            if(!flag){
-                System.out.println("Length doesn't match the required length. Try again!");
-            }
+    public static lockrypt getInstance(){
+        if(instanceL==null){
+            instanceL= new lockrypt();
         }
-        sc.close();
+        return instanceL;
     }
+
+    public lockrypt(){
+        this.username="KoruptTinker";
+        this.password="adminadminadmin1";
+    }
+
     public String getPass(){
         return this.password;
     }
@@ -35,11 +34,12 @@ public class lockrypt {
         }
         return false;
     }
-    public static void main(String[] args) throws Exception{ 
+    /*public static void main(String[] args) throws Exception{ 
         lockrypt user=new lockrypt();
-        AdvancedEncryption AE=new AdvancedEncryption(user);
+        AdvancedEncryption AE=new AdvancedEncryption();
         fileManager FM=new fileManager();
         block_chain.Create_Blockchain();
+        FM.getFileList();
         byte[][] cipher=new byte[FM.fileList.length][];
         byte[][] decipher=new byte[FM.fileList.length][];
         for(int i=0;i<FM.fileList.length;i++){
@@ -57,5 +57,5 @@ public class lockrypt {
             byte[] deciphered=AE.decrypt(block_chain.blockchain.get(i+1).get_data2());
             FM.createFileDecrypted(deciphered,FM.fileList[i].getName());
         }
-    }
+    }*/
 }

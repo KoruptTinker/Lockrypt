@@ -8,19 +8,32 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class fileManager {
-    static File filePath=new File("./pending-uploads/");
-    static String lockerPath="./file-locker/";
-    static String fileLoc="./downloads/";
-    File[] fileList;
-    byte[][] fileBytes;
+    public static fileManager instanceFM;
+    public static File filePath=new File("/home/korupttinker/Projects/Lockrypt/lockrypt/src/main/java/com/lockrypt/backend/pending-uploads");
+    public static String lockerPath="/home/korupttinker/Projects/Lockrypt/lockrypt/src/main/java/com/lockrypt/backend/file-locker/";
+    public static String fileLoc="/home/korupttinker/Projects/Lockrypt/lockrypt/src/main/java/com/lockrypt/backend/downloads/";
+    public File fileList[];
+    public byte[][] fileBytes;
     private int counter;
 
-    public fileManager(){
-        this.fileList=filePath.listFiles();
-        this.fileBytes=new byte[this.fileList.length][];
-        this.counter=0;
+    public static fileManager getInstance() {
+		if (instanceFM == null) {
+			instanceFM = new fileManager();
+		}
+		return instanceFM;
     }
     
+    public fileManager(){
+        //this.fileList=filePath.listFiles();
+        //this.fileBytes=new byte[fileList.length][];
+        this.counter=0;
+    }
+
+    public void getFileList(){
+        this.fileList=filePath.listFiles();
+        this.fileBytes=new byte[fileList.length][];
+    }
+
     public void getFileBytes(File fileName){
         try{
             Path tempPath=Paths.get(fileName.toString());

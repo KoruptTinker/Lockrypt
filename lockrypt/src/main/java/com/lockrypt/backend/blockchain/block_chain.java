@@ -8,7 +8,7 @@ public class block_chain {
     public static void Create_Blockchain(){
 		byte[] data2 =new byte[0];
     	blockchain.add(new block("Initial block", "0",data2, null));
-    	blockchain.get(0).mining(difficulty);
+		blockchain.get(0).mining(difficulty);
     }
 	
 	public static void Add_Block(String data, byte[] data2, String fileName){
