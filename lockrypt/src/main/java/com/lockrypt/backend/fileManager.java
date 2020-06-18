@@ -9,9 +9,9 @@ import java.nio.file.Paths;
 
 public class fileManager {
     public static fileManager instanceFM;
-    public static File filePath=new File("/home/korupttinker/Projects/Lockrypt/lockrypt/src/main/java/com/lockrypt/backend/pending-uploads");
-    public static String lockerPath="/home/korupttinker/Projects/Lockrypt/lockrypt/src/main/java/com/lockrypt/backend/file-locker/";
-    public static String fileLoc="/home/korupttinker/Projects/Lockrypt/lockrypt/src/main/java/com/lockrypt/backend/downloads/";
+    public static File filePath=new File("/home/korupttinker/Projects/Lockrypt/pending-uploads");
+    public static String lockerPath="/home/korupttinker/Projects/Lockrypt/file-locker/";
+    public static String fileLoc="/home/korupttinker/Projects/Lockrypt/downloads/";
     public File fileList[];
     public byte[][] fileBytes;
     private int counter;
@@ -23,15 +23,19 @@ public class fileManager {
 		return instanceFM;
     }
     
+
+    public void getLockerContents(){
+        File locker=new File("/home/korupttinker/Projects/Lockrypt/file-locker");
+        this.fileList=locker.listFiles();
+    }
+
     public fileManager(){
-        //this.fileList=filePath.listFiles();
-        //this.fileBytes=new byte[fileList.length][];
+        this.fileBytes=new byte[100][];
         this.counter=0;
     }
 
     public void getFileList(){
         this.fileList=filePath.listFiles();
-        this.fileBytes=new byte[fileList.length][];
     }
 
     public void getFileBytes(File fileName){
@@ -51,7 +55,7 @@ public class fileManager {
 
     public void createFileEncrypted(byte[] data, String fileName){
         try{
-            File temp=new File(String.format("%s%s",lockerPath, fileName));
+            File temp=new File(String.format("%s/%s",lockerPath, fileName));
             FileOutputStream fileWrite=new FileOutputStream(temp);
             fileWrite.write(data);
             fileWrite.flush();
@@ -64,7 +68,7 @@ public class fileManager {
 
     public void createFileDecrypted(byte[] data, String fileName){
         try{
-            File temp=new File(String.format("%s%s",fileLoc,fileName));
+            File temp=new File(String.format("%s/%s",fileLoc,fileName));
             FileOutputStream fileWrite=new FileOutputStream(temp);
             fileWrite.write(data);
             fileWrite.flush();

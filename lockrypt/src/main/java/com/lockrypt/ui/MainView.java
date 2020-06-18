@@ -1,35 +1,23 @@
 package com.lockrypt.ui;
 
+import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lockrypt.backend.AdvancedEncryption;
 import com.lockrypt.backend.fileManager;
 import com.lockrypt.backend.lockrypt;
 import com.lockrypt.backend.blockchain.block_chain;
-import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.charts.model.HorizontalAlign;
-import com.vaadin.flow.component.charts.model.Label;
-import com.vaadin.flow.component.charts.model.TimeUnit;
-import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.upload.Upload;
-import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.router.Route;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.memory.UserAttribute;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.apache.commons.io.FileUtils;
 
 @Route
 public class MainView extends VerticalLayout {
@@ -37,22 +25,34 @@ public class MainView extends VerticalLayout {
     private lockrypt lock=lockrypt.getInstance();
     private AdvancedEncryption AE=AdvancedEncryption.getInstance();
     private byte[][] cipher;
+    private int counter=0;
     public MainView(){
         H2 head=new H2("Welcome, KoruptTinker!");
         H3 head3=new H3("Upload your files to the locker!");
-        MemoryBuffer memoryBuffer = new MemoryBuffer();
-        Upload upload = new Upload(memoryBuffer);
-        upload.addFinishedListener(e -> {
-        InputStream inputStream = memoryBuffer.getInputStream();
-            });
+        MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
+        Upload upload = new Upload(buffer);
+        upload.addSucceededListener(event -> {
+            InputStream inputStream=buffer.getInputStream(event.getFileName());
+            try{
+                File targetPath=new File(String.format("/home/korupttinker/Projects/Lockrypt/pending-uploads/%s",event.getFileName()));
+                FileUtils.copyInputStreamToFile(inputStream, targetPath);
+            }
+            catch(Exception exc){
+                exc.printStackTrace();
+            }
+        });
         
         PasswordField passwordField = new PasswordField();
         passwordField.setLabel("Encryption key");
         passwordField.setPlaceholder("Enter key");
         passwordField.setMaxLength(16);
         Dialog d=new Dialog();
-        d.add("Files uploaded to cloud successfully! Logging out now!");
+        d.add("Files uploaded to cloud successfully! Reloading the page!");
         d.setCloseOnOutsideClick(false);
+        d.addDialogCloseActionListener(eventClose->{
+            d.close();
+            UI.getCurrent().getPage().reload();
+        });
         Button b1=new Button("Encrypt and Upload the files!",
         e-> {
             block_chain.Create_Blockchain();
@@ -60,10 +60,12 @@ public class MainView extends VerticalLayout {
             cipher=new byte[fm.fileList.length][];
             for(int i=0;i<fm.fileList.length;i++){
                 fm.getFileBytes(fm.fileList[i]);
+                System.out.println("Bytes received");
             }
             for(int i=0;i<fm.fileList.length;i++){
                 try{
                 cipher[i]=AE.encrypt(fm.fileBytes[i],passwordField.getValue());
+                System.out.println("Encrypted");
                 }
                 catch(Exception ex){
                     ex.printStackTrace();
@@ -76,14 +78,8 @@ public class MainView extends VerticalLayout {
             for(int i=0;i<fm.fileList.length;i++){
                 byte[] data=block_chain.blockchain.get(i+1).get_data2();
                 fm.createFileEncrypted(data,fm.fileList[i].getName());
-                try{
-                    byte[] deciphered=AE.decrypt(block_chain.blockchain.get(i+1).get_data2(),passwordField.getValue());
-                    fm.createFileDecrypted(deciphered,fm.fileList[i].getName());
-                }
-                catch(Exception ex){
-                    ex.printStackTrace();
-                }
             }
+            d.setCloseOnOutsideClick(true);
             d.open();
         });
         setJustifyContentMode(JustifyContentMode.CENTER);
