@@ -17,11 +17,13 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.router.Route;
+
 import org.apache.commons.io.FileUtils;
 
-@Route
+@Route(value="", layout=MainLayout.class)
+
 public class MainView extends VerticalLayout {
-    private fileManager fm=fileManager.getInstance();
+	private fileManager fm=fileManager.getInstance();
     private lockrypt lock=lockrypt.getInstance();
     private AdvancedEncryption AE=AdvancedEncryption.getInstance();
     private byte[][] cipher;

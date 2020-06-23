@@ -3,12 +3,15 @@ package com.lockrypt.backend.blockchain;
 import java.util.ArrayList; 
 
 public class block_chain {
-	public static ArrayList<block> blockchain = new ArrayList<block>();
+	public static ArrayList<block> blockchain;
 	public static int difficulty = 3;
     public static void Create_Blockchain(){
-		byte[] data2 =new byte[0];
-    	blockchain.add(new block("Initial block", "0",data2, null));
-		blockchain.get(0).mining(difficulty);
+		if (block_chain.blockchain==null){
+			block_chain.blockchain=new ArrayList<block>();
+			byte[] data2 =new byte[0];
+    		blockchain.add(new block("Initial block", "0",data2, null));
+			blockchain.get(0).mining(difficulty);
+		}
     }
 	
 	public static void Add_Block(String data, byte[] data2, String fileName){

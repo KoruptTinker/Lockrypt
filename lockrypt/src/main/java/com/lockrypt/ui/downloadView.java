@@ -19,8 +19,10 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 
-@Route("download")
+@Route(value="download", layout = MainLayout.class)
 public class downloadView extends VerticalLayout{
     private fileManager fm=fileManager.getInstance();
     private lockrypt lock=lockrypt.getInstance();
